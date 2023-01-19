@@ -33,17 +33,25 @@ import {AuthGuardService} from './auth-guard.service';
     MatInputModule,
     SocialLoginModule
   ],
-  providers: [{
+  providers: [
+              {
     provide: 'SocialAuthServiceConfig',
     useValue: {
-      autoLogin: true,
+      autoLogin: false,
       providers: [
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider('148517665605-jspahbqleats6lvlag9kasc2c11b5g7o.apps.googleusercontent.com')
+          provider: new GoogleLoginProvider(
+            '148517665605-jspahbqleats6lvlag9kasc2c11b5g7o.apps.googleusercontent.com',
+            {scope: 'profile email',
+            plugin_name:'sample_login'}
+          )
         }
-      ]
-    }
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
   },
     AuthGuardService],
   bootstrap: [AppComponent]
